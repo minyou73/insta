@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block body %}
+
+     <div class="row row-cols-3">
+        {% for post in user_info.post_set.all %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{ post.image.url }}" alt="">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <hr>
+    <form action="{% url 'posts:comment_create' post_id=post.id %}" method="POST">
+        {%csrf_token%}
+        {{form}}
+        <input type="submit">
+
+    </form>
+
+    <hr>
+
+    {% for comment in post.comment_set.all %}
+        <p>{{ comment.user }} : {{ comment.content }}</p>
+    {% endfor %}
+
+{% endblock %}
